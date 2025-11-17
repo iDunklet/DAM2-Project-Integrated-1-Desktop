@@ -8,14 +8,14 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace FormsDesktop.Classes
 {
     [Serializable]
-    public class Jugador
+    public class ColorsUser
     {
         public string Name { get; set; }
         public int Age { get; set; }
 
 
         //constructors
-        public Jugador(string name, int age)
+        public ColorsUser(string name, int age)
         {
             Name = name;
             Age = age;
