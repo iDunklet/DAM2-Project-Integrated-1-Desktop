@@ -132,7 +132,7 @@
             labelPun.TabIndex = 7;
             labelPun.Text = "Puntos:";
             // 
-            // DataGameControl
+            // CatGameDataControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -146,7 +146,7 @@
             Controls.Add(labelTiempo);
             Controls.Add(labelTiem);
             Controls.Add(labelFecha);
-            Name = "DataGameControl";
+            Name = "CatGameDataControl";
             Size = new Size(420, 193);
             ResumeLayout(false);
             PerformLayout();

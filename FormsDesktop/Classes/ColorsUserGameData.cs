@@ -16,7 +16,6 @@ namespace FormsDesktop.Classes
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int GameTime { get; set; }
-
         public int Rounds { get; set; }
 
 
