@@ -25,14 +25,12 @@ namespace FormsDesktop.Control
         public void setDatos(CatUser user)
         {
             currentUser = user;
-            // Asignar datos a los controles (ajusta los nombres según tus controles)
+
             labelNombre.Text = user.Name;
             labelEdad.Text = user.Age.ToString();
             panelDataGame.Controls.Clear();
 
-            // Ordenar GameList por fecha descendente (más reciente primero)
             var gameListOrdenada = user.GameList.OrderBy(g => DateTime.Parse(g.Date)).ToList();
-            // Agregar un control por cada partida
             int yPosition = 10;
             foreach (var gameData in gameListOrdenada)
             {

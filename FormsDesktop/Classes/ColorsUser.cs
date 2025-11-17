@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,13 +12,15 @@ namespace FormsDesktop.Classes
     {
         public string Name { get; set; }
         public int Age { get; set; }
+        public List<ColorsUserGameData> GameList { get; set; } = new List<ColorsUserGameData>(); // <-- fijate en los paréntesis y el ;
 
 
         //constructors
-        public ColorsUser(string name, int age)
+        public Jugador(string name, int age, List<ColorsUserGameData> gameList)
         {
-            Name = name;
             Age = age;
+            Name = name;
+            GameList = gameList;
         }
 
     }
