@@ -136,7 +136,8 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(128, 255, 255);
+            BackColor = Color.Thistle;
+            BorderStyle = BorderStyle.Fixed3D;
             Controls.Add(labelPuntos);
             Controls.Add(labelPun);
             Controls.Add(labelErrores);
@@ -147,7 +148,7 @@
             Controls.Add(labelTiem);
             Controls.Add(labelFecha);
             Name = "CatGameDataControl";
-            Size = new Size(420, 193);
+            Size = new Size(416, 189);
             ResumeLayout(false);
             PerformLayout();
         }

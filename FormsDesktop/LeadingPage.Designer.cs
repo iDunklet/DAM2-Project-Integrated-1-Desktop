@@ -86,6 +86,7 @@
             button3.Size = new Size(74, 87);
             button3.TabIndex = 2;
             button3.UseVisualStyleBackColor = false;
+            button3.Click += button3_Click;
             // 
             // panelDivisor1
             // 

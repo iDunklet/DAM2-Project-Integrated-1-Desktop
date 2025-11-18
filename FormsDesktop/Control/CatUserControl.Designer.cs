@@ -33,7 +33,6 @@
             labelNombre = new Label();
             labelEd = new Label();
             contextMenuStrip1 = new ContextMenuStrip(components);
-            editarToolStripMenuItem = new ToolStripMenuItem();
             eliminarToolStripMenuItem = new ToolStripMenuItem();
             buttonEditar = new Button();
             labelEdad = new Label();
@@ -73,28 +72,21 @@
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(20, 20);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { editarToolStripMenuItem, eliminarToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { eliminarToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.RenderMode = ToolStripRenderMode.System;
-            contextMenuStrip1.Size = new Size(133, 52);
-            // 
-            // editarToolStripMenuItem
-            // 
-            editarToolStripMenuItem.Name = "editarToolStripMenuItem";
-            editarToolStripMenuItem.Size = new Size(132, 24);
-            editarToolStripMenuItem.Text = "Editar";
-            editarToolStripMenuItem.Click += editarToolStripMenuItem_Click;
+            contextMenuStrip1.Size = new Size(211, 56);
             // 
             // eliminarToolStripMenuItem
             // 
             eliminarToolStripMenuItem.Name = "eliminarToolStripMenuItem";
-            eliminarToolStripMenuItem.Size = new Size(132, 24);
+            eliminarToolStripMenuItem.Size = new Size(210, 24);
             eliminarToolStripMenuItem.Text = "Eliminar";
             eliminarToolStripMenuItem.Click += eliminarToolStripMenuItem_Click;
             // 
             // buttonEditar
             // 
-            buttonEditar.BackColor = SystemColors.ActiveCaption;
+            buttonEditar.BackColor = SystemColors.Highlight;
             buttonEditar.FlatAppearance.BorderSize = 0;
             buttonEditar.FlatStyle = FlatStyle.Flat;
             buttonEditar.Font = new Font("Segoe UI", 20F);
@@ -116,11 +108,11 @@
             labelEdad.TabIndex = 2;
             labelEdad.Text = "olis";
             // 
-            // UsuarioControl
+            // CatUserControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Red;
+            BackColor = Color.Azure;
             BorderStyle = BorderStyle.Fixed3D;
             Controls.Add(buttonEditar);
             Controls.Add(labelEdad);
@@ -128,7 +120,7 @@
             Controls.Add(labelNombre);
             Controls.Add(panelDataGame);
             Margin = new Padding(70, 40, 20, 20);
-            Name = "UsuarioControl";
+            Name = "CatUserControl";
             Size = new Size(500, 612);
             contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
@@ -141,7 +133,6 @@
         private Label labelNombre;
         private Label labelEd;
         private ContextMenuStrip contextMenuStrip1;
-        private ToolStripMenuItem editarToolStripMenuItem;
         private ToolStripMenuItem eliminarToolStripMenuItem;
         private Button buttonEditar;
         private Label labelEdad;

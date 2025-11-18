@@ -93,7 +93,7 @@ namespace FormsDesktop
         private void MostrarUsuariosGato(List<CatUser> usuariosGato)
         {
             panelSuperior.Controls.Clear();
-   
+
             List<CatUser> usuariosOrdenados = usuariosGato;
 
             switch (comboBoxOrdenar.SelectedIndex)
@@ -108,10 +108,14 @@ namespace FormsDesktop
 
             foreach (var user in usuariosOrdenados)
             {
-                var uc = new CatUserControl();
+                var uc = new CatUserControl(usuariosOrdenados, user);
                 uc.setDatos(user);
-                uc.EditarClick += (s, ev) => MessageBox.Show($"EDITAR usuario: {user.name}");
-                uc.EliminarClick += (s, ev) => MessageBox.Show($"ELIMINAR usuario: {user.name}");
+
+                uc.OnUserDeleted += (usuarioEliminado) =>
+                {
+                    usuariosGato.Remove(usuarioEliminado);
+                    MostrarUsuariosGato(usuariosGato);
+                };
                 panelSuperior.Controls.Add(uc);
             }
         }
@@ -136,6 +140,8 @@ namespace FormsDesktop
             {
                 var uc = new ColorsUserControl();
                 uc.setDatos(user);
+
+
                 panelSuperior.Controls.Add(uc);
             }
         }
@@ -165,5 +171,9 @@ namespace FormsDesktop
             }
         }
 
+        private void button3_Click(object sender, EventArgs e)
+        {
+         
+        }
     }
 }

@@ -9,22 +9,26 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FormsDesktop.Classes;
 
+
 namespace FormsDesktop.Control
 {
     public partial class CatUserControl : UserControl
     {
-        public event EventHandler EditarClick;
-        public event EventHandler EliminarClick;
-        private CatUser currentUser;
+        private CatUser u;
+        private List<CatUser> listaUsers;
+        public event Action<CatUser> OnUserDeleted;
 
-        public CatUserControl()
+
+
+        public CatUserControl(List<CatUser> l, CatUser catuser)
         {
             InitializeComponent();
+            this.u = catuser;
+            this.listaUsers = l;
         }
 
         public void setDatos(CatUser user)
         {
-            currentUser = user;
 
             labelNombre.Text = user.name;
             labelEdad.Text = user.age.ToString();
@@ -32,12 +36,7 @@ namespace FormsDesktop.Control
 
             var gameListOrdenada = user.gameList.OrderBy(g =>
             {
-                string[] formats = {
-        "yyyy-MM-ddTHH:mm:ss",      // Formato ISO
-        "MM/dd/yyyy HH:mm:ss",      // Formato USA  
-        "yyyy-MM-dd HH:mm:ss",      // Formato ISO sin T
-        "dd/MM/yyyy HH:mm:ss"       // Formato europeo
-    };
+                string[] formats = {"yyyy-MM-ddTHH:mm:ss", "MM/dd/yyyy HH:mm:ss", "yyyy-MM-dd HH:mm:ss", "dd/MM/yyyy HH:mm:ss"};
 
                 if (DateTime.TryParseExact(g.date, formats,
                     System.Globalization.CultureInfo.InvariantCulture,
@@ -47,7 +46,6 @@ namespace FormsDesktop.Control
                 }
                 else
                 {
-                    // Si falla todo, usar la fecha mínima
                     return DateTime.MinValue;
                 }
             }).ToList();
@@ -64,11 +62,21 @@ namespace FormsDesktop.Control
 
         private void editarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            EditarClick?.Invoke(this, EventArgs.Empty);
         }
         private void eliminarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            EliminarClick?.Invoke(this, EventArgs.Empty);
+            DialogResult result = MessageBox.Show(
+                $"¿Estás seguro de que quieres eliminar a {u.name}?",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                listaUsers.Remove(u);
+                OnUserDeleted?.Invoke(u);
+            }
         }
 
         private void buttonEditar_Click(object sender, EventArgs e)
