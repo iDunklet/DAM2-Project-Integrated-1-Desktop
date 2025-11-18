@@ -26,11 +26,31 @@ namespace FormsDesktop.Control
         {
             currentUser = user;
 
-            labelNombre.Text = user.Name;
-            labelEdad.Text = user.Age.ToString();
+            labelNombre.Text = user.name;
+            labelEdad.Text = user.age.ToString();
             panelDataGame.Controls.Clear();
 
-            var gameListOrdenada = user.GameList.OrderBy(g => DateTime.Parse(g.Date)).ToList();
+            var gameListOrdenada = user.gameList.OrderBy(g =>
+            {
+                string[] formats = {
+        "yyyy-MM-ddTHH:mm:ss",      // Formato ISO
+        "MM/dd/yyyy HH:mm:ss",      // Formato USA  
+        "yyyy-MM-dd HH:mm:ss",      // Formato ISO sin T
+        "dd/MM/yyyy HH:mm:ss"       // Formato europeo
+    };
+
+                if (DateTime.TryParseExact(g.date, formats,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    System.Globalization.DateTimeStyles.None, out DateTime result))
+                {
+                    return result;
+                }
+                else
+                {
+                    // Si falla todo, usar la fecha mínima
+                    return DateTime.MinValue;
+                }
+            }).ToList();
             int yPosition = 10;
             foreach (var gameData in gameListOrdenada)
             {

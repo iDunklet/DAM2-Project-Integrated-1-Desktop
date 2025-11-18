@@ -8,20 +8,21 @@ namespace FormsDesktop.Classes
 {
     public class CatUserGameData
     {
-        public int GameTime { get; set; }
-        public int Errors { get; set; }
-        public int Points { get; set; }
-        public string Date { get; set; }
-        public string Dificulty { get; set; }
-        
+        public int gameTime { get; set; }
+        public int errors { get; set; }
+        public int points { get; set; }
+        public string date { get; set; }
+        public string dificulty { get; set; }
+        public  List<float> reactionTime { get; set; }
         //Constructors
-        public CatUserGameData(string dificulty, int gameTime, int errors, int points, string date)
+        public CatUserGameData(string dificulty, int gameTime, int errors, int points, string date, List<float> reactiontime)
         {
-            Dificulty = dificulty;
-            GameTime = gameTime;
-            Errors = errors;
-            Points = points;
-            Date = date;
+            this.dificulty = dificulty;
+            this.gameTime = gameTime;
+            this.errors = errors;
+            this.points = points;
+            this.date = date;
+            this.reactionTime = reactiontime;
         }
     }
 

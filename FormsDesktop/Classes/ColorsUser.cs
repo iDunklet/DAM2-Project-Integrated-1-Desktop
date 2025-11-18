@@ -16,7 +16,7 @@ namespace FormsDesktop.Classes
 
 
         //constructors
-        public Jugador(string name, int age, List<ColorsUserGameData> gameList)
+        public ColorsUser(string name, int age, List<ColorsUserGameData> gameList)
         {
             Age = age;
             Name = name;

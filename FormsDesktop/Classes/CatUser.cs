@@ -8,22 +8,18 @@ namespace FormsDesktop.Classes
 {
     public class CatUser
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
+        public string name { get; set; }
+        public int age { get; set; }
 
         // game data
-        public List<CatUserGameData> GameList { get; set; } = new List<CatUserGameData>();
+        public List<CatUserGameData> gameList { get; set; } = new List<CatUserGameData>();
 
         //Constructors
         public CatUser(int age, string name, List<CatUserGameData> gameList)
         {
-            Age = age;
-            Name = name;
-            GameList = gameList ?? new List<CatUserGameData>();
+            this.age = age;
+            this.name = name;
+            this.gameList = gameList ?? new List<CatUserGameData>();
         }
     }
-
-
-
-
 }

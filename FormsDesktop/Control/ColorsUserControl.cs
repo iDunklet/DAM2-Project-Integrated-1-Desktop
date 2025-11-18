@@ -14,14 +14,14 @@ namespace FormsDesktop.Control
 {
     public partial class ColorsUserControl : UserControl
     {
-        private Jugador currentUser;
+        private ColorsUser currentUser;
 
         public ColorsUserControl()
         {
             InitializeComponent();
         }
 
-        public void setDatos(Jugador user)
+        public void setDatos(ColorsUser user)
         {
             currentUser = user;
 

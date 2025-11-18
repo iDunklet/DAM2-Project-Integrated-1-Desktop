@@ -36,7 +36,6 @@
             panelDivisor2 = new Panel();
             panelSuperior = new FlowLayoutPanel();
             flowLayoutPanelHeader = new FlowLayoutPanel();
-            button5 = new Button();
             comboBoxOrdenar = new ComboBox();
             comboBoxTipoJuegos = new ComboBox();
             flowLayoutPanel1.SuspendLayout();
@@ -112,7 +111,7 @@
             // 
             panelSuperior.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panelSuperior.AutoScroll = true;
-            panelSuperior.BackColor = Color.FromArgb(255, 128, 0);
+            panelSuperior.BackColor = Color.FromArgb(36, 104, 156);
             panelSuperior.Location = new Point(12, 95);
             panelSuperior.Name = "panelSuperior";
             panelSuperior.Size = new Size(1331, 706);
@@ -120,8 +119,7 @@
             // 
             // flowLayoutPanelHeader
             // 
-            flowLayoutPanelHeader.BackColor = Color.FromArgb(255, 128, 255);
-            flowLayoutPanelHeader.Controls.Add(button5);
+            flowLayoutPanelHeader.BackColor = Color.FromArgb(72, 94, 196);
             flowLayoutPanelHeader.Controls.Add(comboBoxOrdenar);
             flowLayoutPanelHeader.Controls.Add(comboBoxTipoJuegos);
             flowLayoutPanelHeader.Dock = DockStyle.Top;
@@ -133,21 +131,12 @@
             flowLayoutPanelHeader.TabIndex = 4;
             flowLayoutPanelHeader.WrapContents = false;
             // 
-            // button5
-            // 
-            button5.Location = new Point(1236, 13);
-            button5.Name = "button5";
-            button5.Size = new Size(94, 29);
-            button5.TabIndex = 1;
-            button5.Text = "button5";
-            button5.UseVisualStyleBackColor = true;
-            // 
             // comboBoxOrdenar
             // 
             comboBoxOrdenar.FlatStyle = FlatStyle.Popup;
             comboBoxOrdenar.FormattingEnabled = true;
             comboBoxOrdenar.Items.AddRange(new object[] { "Edad (as)", "Edad (des)", "Nombre (as)", "Nombre (des)", "Puntos (as)", "Puntos (des)" });
-            comboBoxOrdenar.Location = new Point(1079, 13);
+            comboBoxOrdenar.Location = new Point(1179, 13);
             comboBoxOrdenar.Name = "comboBoxOrdenar";
             comboBoxOrdenar.Size = new Size(151, 28);
             comboBoxOrdenar.TabIndex = 3;
@@ -161,7 +150,7 @@
             comboBoxTipoJuegos.FlatStyle = FlatStyle.Popup;
             comboBoxTipoJuegos.FormattingEnabled = true;
             comboBoxTipoJuegos.Items.AddRange(new object[] { "Gatito Cuentgotas", "Colorful Shapes" });
-            comboBoxTipoJuegos.Location = new Point(888, 13);
+            comboBoxTipoJuegos.Location = new Point(988, 13);
             comboBoxTipoJuegos.Name = "comboBoxTipoJuegos";
             comboBoxTipoJuegos.Size = new Size(185, 28);
             comboBoxTipoJuegos.TabIndex = 2;

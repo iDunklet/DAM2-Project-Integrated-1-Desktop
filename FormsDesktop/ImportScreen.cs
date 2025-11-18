@@ -1,9 +1,12 @@
-﻿using FormsDesktop.Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Windows.Forms;
+using FormsDesktop.Classes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using JsonException = Newtonsoft.Json.JsonException;
 
 namespace FormsDesktop
 {
@@ -17,7 +20,6 @@ namespace FormsDesktop
         {
             InitializeComponent();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             dialog.Filter = "Archivos JSON (*.json)|*.json";
@@ -25,73 +27,81 @@ namespace FormsDesktop
 
             if (dialog.ShowDialog() != DialogResult.OK) return;
 
-            string selectedJsonContent = File.ReadAllText(dialog.FileName);
+            string path = dialog.FileName;
+            string json = File.ReadAllText(path);
+            JObject jDatos = JObject.Parse(json);
 
-            try
+            string game = null;
+            JArray array = null;
+
+            if (jDatos["cat"] is JArray catArray)
             {
-                using JsonDocument doc = JsonDocument.Parse(selectedJsonContent);
-                var root = doc.RootElement;
+                game = "cat";
+                array = catArray;
+            }
+            else if (jDatos["colors"] is JArray colorsArray)
+            {
+                game = "colors";
+                array = colorsArray;
+            }
 
-                string game = null;
-                JsonElement array;
+            if (game == null)
+            {
+                MessageBox.Show("JSON no corresponde a ningún juego.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                if (root.TryGetProperty("cat", out array)) game = "cat";
-                else if (root.TryGetProperty("colors", out array)) game = "colors";
+            bool isValid = true;
 
-                if (game == null)
+            foreach (var item in array)
+            {
+                if (item is JObject obj)
                 {
-                    MessageBox.Show("JSON no corresponde a ningún juego.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                bool isValid = true;
-
-                foreach (var item in array.EnumerateArray())
-                {
-                    if (game == "cat" && (!item.TryGetProperty("name", out _) || !item.TryGetProperty("age", out _)))
+                    if (game == "cat" && (obj["name"] == null || obj["age"] == null))
                         isValid = false;
-                    else if (game == "colors" && (!item.TryGetProperty("name", out _) || !item.TryGetProperty("hex", out _)))
+                    else if (game == "colors" && (obj["name"] == null || obj["hex"] == null))
                         isValid = false;
-
-                    if (!isValid) break;
-                }
-
-                if (!isValid)
-                {
-                    MessageBox.Show($"JSON inválido para {game}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                // Deserializamos el JSON a los objetos correspondientes
-                if (game == "cat")
-                {
-                    catusers = JsonSerializer.Deserialize<List<CatUser>>(array.GetRawText());
-                }
-                else if (game == "colors")
-                {
-                    colorsUsers = JsonSerializer.Deserialize<List<ColorsUser>>(array.GetRawText());
-                }
-
-                MessageBox.Show($"JSON válido para {game} y cargado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                if (game == "cat")
-                {
-                    LeadingPage lp = new LeadingPage(catusers);
-                    lp.Show();
                 }
                 else
                 {
-                    LeadingPage lp = new LeadingPage(colorsUsers);
-                    lp.Show();
+                    isValid = false;
                 }
 
-
+                if (!isValid) break;
             }
-            catch (JsonException)
+
+            if (!isValid)
             {
-                MessageBox.Show("JSON no válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"JSON inválido para {game}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
+            // Deserializamos el JArray directamente a las listas
+            if (game == "cat")
+            {
+                catusers = array.ToObject<List<CatUser>>();
+            }
+            else if (game == "colors")
+            {
+                colorsUsers = array.ToObject<List<ColorsUser>>();
+            }
 
+            MessageBox.Show($"JSON válido para {game} y cargado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            if (game == "cat")
+            {
+                LeadingPage lp = new LeadingPage(null, catusers);
+                lp.Show();
+                this.Hide();
+            }
+            else
+            {
+                LeadingPage lp = new LeadingPage(colorsUsers, null);
+                lp.Show();
+                this.Hide();
+
+            }
         }
     }
 }
+
