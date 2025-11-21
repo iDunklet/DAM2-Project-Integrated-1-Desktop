@@ -59,10 +59,6 @@ namespace FormsDesktop.Control
                 yPosition += gameControl.Height + 10;
             }
         }
-
-        private void editarToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-        }
         private void eliminarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(

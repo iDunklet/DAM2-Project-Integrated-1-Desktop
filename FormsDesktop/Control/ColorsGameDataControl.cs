@@ -20,7 +20,7 @@ namespace FormsDesktop.Control
         public void SetDatos(ColorsUserGameData gameData)
         { String dificultad = null;
                         
-            switch (gameData.Dificulty)
+            switch (gameData.dificultad)
             {
                 case 1: dificultad = "fácil"; break;
                 case 2: dificultad = "media"; break;
@@ -28,11 +28,11 @@ namespace FormsDesktop.Control
             }
 
             labelDificultad.Text = dificultad;
-            labelTiempo.Text = $"{gameData.GameTime}s";
-            labelErrores.Text = $"{gameData.Errors}";
-            labelAciertos.Text = $"{gameData.Successes}";
-            labelFecha.Text = DateTime.Parse(gameData.EndDate.ToString()).ToString("dd/MM/yyyy HH:mm");
-            labelRondas.Text = $"{gameData.Rounds}";
+            labelTiempo.Text = $"{gameData.gametime}s";
+            labelErrores.Text = $"{gameData.errores}";
+            labelAciertos.Text = $"{gameData.aciertos}";
+            labelFecha.Text = DateTime.Parse(gameData.fechaHoraFin.ToString()).ToString("dd/MM/yyyy HH:mm");
+            labelRondas.Text = $"{gameData.rondas}";
         }
 
         private void labelPun_Click(object sender, EventArgs e)

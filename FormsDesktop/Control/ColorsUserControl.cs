@@ -14,22 +14,26 @@ namespace FormsDesktop.Control
 {
     public partial class ColorsUserControl : UserControl
     {
-        private ColorsUser currentUser;
+        private ColorsUser u;
+        private List<ColorsUser> listaUsers;
+        public event Action<ColorsUser> OnUserDeleted;
 
         public ColorsUserControl()
         {
             InitializeComponent();
         }
 
-        public void setDatos(ColorsUser user)
+        public void setDatos(ColorsUser user, List<ColorsUser> listaUsers)
         {
-            currentUser = user;
+            u = user;
+            this.listaUsers = listaUsers;
 
-            labelNombre.Text = user.Name;
-            labelEdad.Text = user.Age.ToString();
+
+            labelNombre.Text = u.nombre;
+            labelEdad.Text = u.edad.ToString();
             panelDataGame.Controls.Clear();
 
-            var gameListOrdenada = user.GameList.OrderBy(g => DateTime.Parse(g.EndDate.ToString())).ToList();
+            var gameListOrdenada = u.partidas.OrderBy(g => DateTime.Parse(g.fechaHoraFin.ToString())).ToList();
             int yPosition = 10;
             foreach (var gameData in gameListOrdenada)
             {
@@ -45,6 +49,28 @@ namespace FormsDesktop.Control
         private void ColorsUserControl_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonEditar_Click(object sender, EventArgs e)
+        {
+            contextMenuStrip1.Show(buttonEditar, 0, buttonEditar.Height);
+        }
+
+        private void eliminarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            DialogResult result = MessageBox.Show(
+                $"¿Estás seguro de que quieres eliminar a {u.nombre}?",
+                "Confirmar eliminación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                listaUsers.Remove(u);
+                OnUserDeleted?.Invoke(u);
+            }
         }
     }
 }

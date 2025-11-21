@@ -64,17 +64,20 @@
             button1.Size = new Size(74, 87);
             button1.TabIndex = 0;
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // button2
             // 
             button2.BackColor = Color.FromArgb(227, 234, 255);
-            button2.Image = Properties.Resources.icon_buton_graficos_1_;
+            button2.BackgroundImage = Properties.Resources.borrar;
+            button2.BackgroundImageLayout = ImageLayout.Zoom;
             button2.Location = new Point(83, 4);
             button2.Margin = new Padding(3, 4, 3, 4);
             button2.Name = "button2";
             button2.Size = new Size(74, 87);
             button2.TabIndex = 1;
             button2.UseVisualStyleBackColor = false;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
@@ -164,8 +167,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(36, 104, 156);
             ClientSize = new Size(1353, 1015);
-            Controls.Add(flowLayoutPanelHeader);
             Controls.Add(panelSuperior);
+            Controls.Add(flowLayoutPanelHeader);
             Controls.Add(panelDivisor2);
             Controls.Add(panelDivisor1);
             Controls.Add(flowLayoutPanel1);

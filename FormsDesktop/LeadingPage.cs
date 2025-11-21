@@ -9,24 +9,32 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FormsDesktop.Classes;
 using FormsDesktop.Control;
+using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.ApplicationServices;
+using Newtonsoft.Json.Linq;
 
 namespace FormsDesktop
 {
     public partial class LeadingPage : Form
     {
 
-        private List<ColorsUser> listColors = null;
-        private List<CatUser> listCat = null;
+        private List<String> archivosJson;
+        private String directoryPath;
+        private List<CatUser> catusers = new List<CatUser>();
+        private List<ColorsUser> colorsUsers = new List<ColorsUser>();
+        private string filePath;
+        private string filePathCat;
+        private string filePathColors;
 
-        public LeadingPage(List<ColorsUser> lco, List<CatUser> lca)
+        public LeadingPage(List<CatUser> catusers, List<ColorsUser> colorsUsers, String directoryPath)
         {
             InitializeComponent();
-            this.listCat = lca;
-            this.listColors = lco;
+            this.directoryPath = directoryPath;
+            this.catusers = catusers;
+            this.colorsUsers = colorsUsers;
             cargarLayout();
+            CargarArchivosDelDirectorio(directoryPath);
         }
-
         private void cargarLayout()
         {
             int espacioRestante = this.ClientSize.Height - flowLayoutPanelHeader.Height;
@@ -53,41 +61,6 @@ namespace FormsDesktop
             );
             comboBoxTipoJuegos.SelectedIndex = 0;
 
-        }
-
-
-        private List<ColorsUser> datosShapePrueba()
-        {
-            List<ColorsUser> jugadores = new List<ColorsUser>
-            {
-                new ColorsUser("María", 20, new List<ColorsUserGameData>
-                {
-                    new ColorsUserGameData(1, 300, 12, DateTime.Parse("2025-11-11T16:00:00"), DateTime.Parse("2025-11-11T16:18:00"), 980, 4),
-                    new ColorsUserGameData(2, 250, 8, DateTime.Parse("2025-11-12T10:00:00"), DateTime.Parse("2025-11-12T10:20:00"), 1200, 5)
-                }),
-                new ColorsUser("Carlos", 25, new List<ColorsUserGameData>
-                {
-                    new ColorsUserGameData(1, 150, 2, DateTime.Parse("2025-11-10T14:00:00"), DateTime.Parse("2025-11-10T14:15:00"), 950, 3),
-                    new ColorsUserGameData(2, 380, 6, DateTime.Parse("2025-11-12T09:30:00"), DateTime.Parse("2025-11-12T09:55:00"), 1650, 6)
-                }),
-                new ColorsUser("Pepa", 22, new List<ColorsUserGameData>
-                {
-                    new ColorsUserGameData(2, 420, 8, DateTime.Parse("2025-11-13T18:45:00"), DateTime.Parse("2025-11-13T19:15:00"), 1850, 7),
-                    new ColorsUserGameData(1, 95, 0, DateTime.Parse("2025-11-11T09:20:00"), DateTime.Parse("2025-11-11T09:35:00"), 1500, 3)
-                }),
-                new ColorsUser("Lucía", 28, new List<ColorsUserGameData>
-                {
-                    new ColorsUserGameData(1, 200, 4, DateTime.Parse("2025-11-13T09:15:00"), DateTime.Parse("2025-11-13T09:35:00"), 780, 4),
-                    new ColorsUserGameData(2, 450, 15, DateTime.Parse("2025-11-12T17:45:00"), DateTime.Parse("2025-11-12T18:15:00"), 1100, 6)
-                }),
-                new ColorsUser("Juan", 30, new List<ColorsUserGameData>
-                {
-                    new ColorsUserGameData(2, 500, 10, DateTime.Parse("2025-11-15T16:00:00"), DateTime.Parse("2025-11-15T16:32:00"), 1950, 8),
-                    new ColorsUserGameData(1, 110, 0, DateTime.Parse("2025-11-13T10:45:00"), DateTime.Parse("2025-11-13T11:05:00"), 1600, 5)
-                })
-            };
-
-            return jugadores;
         }
 
         private void MostrarUsuariosGato(List<CatUser> usuariosGato)
@@ -128,52 +101,199 @@ namespace FormsDesktop
 
             switch (comboBoxOrdenar.SelectedIndex)
             {
-                case 0: usuariosOrdenados = usuariosColors.OrderBy(u => u.Age).ToList(); break;
-                case 1: usuariosOrdenados = usuariosColors.OrderByDescending(u => u.Age).ToList(); break;
-                case 2: usuariosOrdenados = usuariosColors.OrderBy(u => u.Name).ToList(); break;
-                case 3: usuariosOrdenados = usuariosColors.OrderByDescending(u => u.Name).ToList(); break;
-                case 4: usuariosOrdenados = usuariosColors.OrderBy(u => u.GameList.Sum(g => g.Successes)).ToList(); break;
-                case 5: usuariosOrdenados = usuariosColors.OrderByDescending(u => u.GameList.Sum(g => g.Successes)).ToList(); break;
+                case 0: usuariosOrdenados = usuariosColors.OrderBy(u => u.edad).ToList(); break;
+                case 1: usuariosOrdenados = usuariosColors.OrderByDescending(u => u.edad).ToList(); break;
+                case 2: usuariosOrdenados = usuariosColors.OrderBy(u => u.nombre).ToList(); break;
+                case 3: usuariosOrdenados = usuariosColors.OrderByDescending(u => u.nombre).ToList(); break;
+                case 4: usuariosOrdenados = usuariosColors.OrderBy(u => u.partidas.Sum(g => g.aciertos)).ToList(); break;
+                case 5: usuariosOrdenados = usuariosColors.OrderByDescending(u => u.partidas.Sum(g => g.aciertos)).ToList(); break;
             }
 
             foreach (var user in usuariosOrdenados)
             {
                 var uc = new ColorsUserControl();
-                uc.setDatos(user);
+                uc.setDatos(user, usuariosOrdenados);
 
+                uc.OnUserDeleted += (usuarioEliminado) =>
+                {
+                    usuariosColors.Remove(usuarioEliminado);
+                    MostrarJugadoresShapes(usuariosColors);
+                };
 
                 panelSuperior.Controls.Add(uc);
             }
         }
+
+        private void CargarArchivosDelDirectorio(string directorio)
+        {
+            if (!Directory.Exists(directorio)) return;
+            archivosJson = Directory.GetFiles(directorio, "*.json").ToList();
+
+            comboBoxTipoJuegos.Items.Clear();
+
+            foreach (var f in archivosJson)
+            {
+                string contenido = File.ReadAllText(f);
+                JObject j = JObject.Parse(contenido);
+
+                if (j["cat"] != null && filePathCat == null)
+                {
+                    filePathCat = f;
+                    comboBoxTipoJuegos.Items.Add("Colorful Shapes");
+                }
+                else if (j["colors"] != null && filePathColors == null)
+                {
+                    filePathColors = f;
+                    comboBoxTipoJuegos.Items.Add("Gatito Cuentagota");
+                }
+            }
+
+
+            if (comboBoxTipoJuegos.Items.Count > 0)
+                comboBoxTipoJuegos.SelectedIndex = 0;
+        }
+
+
         private void comboBoxTipoJuegos_SelectedIndexChanged(object sender, EventArgs e)
         {
             panelSuperior.Controls.Clear();
 
-            if (comboBoxTipoJuegos.SelectedIndex == 0)
-            {
-                MostrarUsuariosGato(listCat);
-            }
-            else if (comboBoxTipoJuegos.SelectedIndex == 1)
-            {
-                MostrarJugadoresShapes(listColors);
-            }
+            if (comboBoxTipoJuegos.SelectedIndex == 0 && catusers != null)
+                MostrarUsuariosGato(catusers);
+            else if (comboBoxTipoJuegos.SelectedIndex == 1 && colorsUsers != null)
+                MostrarJugadoresShapes(colorsUsers);
         }
+
+
 
         private void comboBoxOrdenar_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxTipoJuegos.SelectedIndex == 0)
             {
-                MostrarUsuariosGato(listCat);
+                MostrarUsuariosGato(catusers);
             }
             else if (comboBoxTipoJuegos.SelectedIndex == 1)
             {
-                MostrarJugadoresShapes(listColors);
+                MostrarJugadoresShapes(colorsUsers);
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (comboBoxTipoJuegos.SelectedIndex == 0)
+                filePath = filePathCat;
+            else if (comboBoxTipoJuegos.SelectedIndex == 1)
+                filePath = filePathColors;
+            else
+            {
+                MessageBox.Show("No hay archivo seleccionado para renombrar.");
+                return;
+            }
+            string nuevoNombre = Interaction.InputBox(
+                "Nuevo nombre para el archivo (sin .json):",
+                "Renombrar JSON",
+                ""
+            );
+
+            if (!string.IsNullOrWhiteSpace(nuevoNombre))
+            {
+                nuevoNombre += ".json";
+
+                string carpeta = Path.GetDirectoryName(filePath);
+                string nuevaRuta = Path.Combine(carpeta, nuevoNombre);
+
+                if (File.Exists(nuevaRuta))
+                {
+                    MessageBox.Show("Ya existe un archivo con ese nombre");
+                    return;
+                }
+
+                File.Move(filePath, nuevaRuta);
+                filePath = nuevaRuta;
+
+                MessageBox.Show("Renombrado correctamente");
+            }
+            else { MessageBox.Show("No puedes dejar el textbox vacio"); }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string pathEliminar = null;
+
+            // Determinar qué archivo eliminar según el ComboBox
+            if (comboBoxTipoJuegos.SelectedIndex == 0)
+                pathEliminar = filePathCat;
+            else if (comboBoxTipoJuegos.SelectedIndex == 1)
+                pathEliminar = filePathColors;
+
+            if (pathEliminar == null)
+            {
+                MessageBox.Show("No hay archivo seleccionado para eliminar.");
+                return;
+            }
+
+            var confirmar = MessageBox.Show(
+                "¿Seguro que quieres eliminar este archivo?",
+                "Eliminar JSON",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (confirmar == DialogResult.Yes)
+            {
+                try
+                {
+                    File.Delete(pathEliminar);
+                    MessageBox.Show("Archivo eliminado.");
+
+                    // Opcional: quitar del ComboBox y actualizar paths
+                    if (comboBoxTipoJuegos.SelectedIndex == 0) filePathCat = null;
+                    else if (comboBoxTipoJuegos.SelectedIndex == 1) filePathColors = null;
+
+                    comboBoxTipoJuegos.Items.RemoveAt(comboBoxTipoJuegos.SelectedIndex);
+                    if (comboBoxTipoJuegos.Items.Count > 0)
+                        comboBoxTipoJuegos.SelectedIndex = 0;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al eliminar: " + ex.Message);
+                }
+            }
+        }
+
+
         private void button3_Click(object sender, EventArgs e)
         {
-         
+            string pathGuardar = null;
+
+            if (comboBoxTipoJuegos.SelectedIndex == 0)
+                pathGuardar = filePathCat;
+            else if (comboBoxTipoJuegos.SelectedIndex == 1)
+                pathGuardar = filePathColors;
+            else
+            {
+                MessageBox.Show("No hay archivo seleccionado para guardar.");
+                return;
+            }
+
+            try
+            {
+                JObject jGuardar = new JObject();
+
+                if (comboBoxTipoJuegos.SelectedIndex == 0)
+                    jGuardar["cat"] = JArray.FromObject(catusers);
+                else
+                    jGuardar["colors"] = JArray.FromObject(colorsUsers);
+
+                File.WriteAllText(pathGuardar, jGuardar.ToString());
+
+                MessageBox.Show("Datos guardados correctamente.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar: " + ex.Message);
+            }
         }
+
     }
 }

@@ -10,17 +10,17 @@ namespace FormsDesktop.Classes
     [Serializable]
     public class ColorsUser
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public List<ColorsUserGameData> GameList { get; set; } = new List<ColorsUserGameData>(); // <-- fijate en los paréntesis y el ;
+        public string nombre { get; set; }
+        public int edad { get; set; }
+        public List<ColorsUserGameData> partidas { get; set; } = new List<ColorsUserGameData>(); // <-- fijate en los paréntesis y el ;
 
 
         //constructors
         public ColorsUser(string name, int age, List<ColorsUserGameData> gameList)
         {
-            Age = age;
-            Name = name;
-            GameList = gameList;
+            edad = age;
+            nombre = name;
+            partidas = gameList;
         }
 
     }

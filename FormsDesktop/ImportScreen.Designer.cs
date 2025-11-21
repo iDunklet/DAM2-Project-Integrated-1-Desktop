@@ -35,9 +35,10 @@
             // 
             button1.BackColor = Color.FromArgb(118, 195, 255);
             button1.Font = new Font("Segoe UI", 30F);
-            button1.Location = new Point(437, 298);
+            button1.Location = new Point(406, 250);
+            button1.Margin = new Padding(3, 4, 3, 4);
             button1.Name = "button1";
-            button1.Size = new Size(368, 116);
+            button1.Size = new Size(421, 155);
             button1.TabIndex = 0;
             button1.Text = "Import   JSON";
             button1.UseVisualStyleBackColor = false;
@@ -45,13 +46,15 @@
             // 
             // ImportScreen
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(36, 104, 156);
-            ClientSize = new Size(1184, 761);
+            ClientSize = new Size(1353, 1015);
             Controls.Add(button1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "ImportScreen";
             Text = "ImportScreen";
+            WindowState = FormWindowState.Maximized;
             ResumeLayout(false);
         }
 

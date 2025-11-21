@@ -156,7 +156,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(192, 0, 0);
+            BackColor = Color.Thistle;
             Controls.Add(labelRondas);
             Controls.Add(labelRon);
             Controls.Add(labelAciertos);
