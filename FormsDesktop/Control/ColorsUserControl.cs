@@ -22,7 +22,6 @@ namespace FormsDesktop.Control
         {
             InitializeComponent();
         }
-
         public void setDatos(ColorsUser user, List<ColorsUser> listaUsers)
         {
             u = user;
@@ -44,18 +43,10 @@ namespace FormsDesktop.Control
                 yPosition += gameControl.Height + 10;
             }
         }
-
-
-        private void ColorsUserControl_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void buttonEditar_Click(object sender, EventArgs e)
         {
             contextMenuStrip1.Show(buttonEditar, 0, buttonEditar.Height);
         }
-
         private void eliminarToolStripMenuItem_Click(object sender, EventArgs e)
         {
 

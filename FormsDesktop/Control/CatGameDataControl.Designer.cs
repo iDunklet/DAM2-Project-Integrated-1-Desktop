@@ -58,7 +58,6 @@
             labelTiem.Size = new Size(88, 28);
             labelTiem.TabIndex = 1;
             labelTiem.Text = "Tiempo:";
-            labelTiem.Click += label1_Click;
             // 
             // labelTiempo
             // 
@@ -69,7 +68,6 @@
             labelTiempo.Size = new Size(39, 28);
             labelTiempo.TabIndex = 2;
             labelTiempo.Text = "ola";
-            labelTiempo.Click += labelTiempo_Click;
             // 
             // labelDificultad
             // 
@@ -80,7 +78,6 @@
             labelDificultad.Size = new Size(39, 28);
             labelDificultad.TabIndex = 4;
             labelDificultad.Text = "ola";
-            labelDificultad.Click += labelDificultad_Click;
             // 
             // labelDif
             // 

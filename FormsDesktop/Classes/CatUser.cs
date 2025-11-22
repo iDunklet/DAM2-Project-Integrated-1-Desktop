@@ -11,10 +11,8 @@ namespace FormsDesktop.Classes
         public string name { get; set; }
         public int age { get; set; }
 
-        // game data
         public List<CatUserGameData> gameList { get; set; } = new List<CatUserGameData>();
 
-        //Constructors
         public CatUser(int age, string name, List<CatUserGameData> gameList)
         {
             this.age = age;

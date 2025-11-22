@@ -34,10 +34,5 @@ namespace FormsDesktop.Control
             labelFecha.Text = DateTime.Parse(gameData.fechaHoraFin.ToString()).ToString("dd/MM/yyyy HH:mm");
             labelRondas.Text = $"{gameData.rondas}";
         }
-
-        private void labelPun_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -122,7 +122,6 @@
             Margin = new Padding(70, 40, 20, 20);
             Name = "ColorsUserControl";
             Size = new Size(500, 613);
-            Load += ColorsUserControl_Load;
             contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();

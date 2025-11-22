@@ -14,7 +14,6 @@ namespace FormsDesktop.Classes
         public string date { get; set; }
         public string dificulty { get; set; }
         public  List<float> reactionTime { get; set; }
-        //Constructors
         public CatUserGameData(string dificulty, int gameTime, int errors, int points, string date, List<float> reactiontime)
         {
             this.dificulty = dificulty;

@@ -12,10 +12,8 @@ namespace FormsDesktop.Classes
     {
         public string nombre { get; set; }
         public int edad { get; set; }
-        public List<ColorsUserGameData> partidas { get; set; } = new List<ColorsUserGameData>(); // <-- fijate en los paréntesis y el ;
+        public List<ColorsUserGameData> partidas { get; set; } = new List<ColorsUserGameData>();
 
-
-        //constructors
         public ColorsUser(string name, int age, List<ColorsUserGameData> gameList)
         {
             edad = age;

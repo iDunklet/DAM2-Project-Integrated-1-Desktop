@@ -70,7 +70,6 @@
             labelAc.Size = new Size(96, 28);
             labelAc.TabIndex = 15;
             labelAc.Text = "Aciertos:";
-            labelAc.Click += labelPun_Click;
             // 
             // labelErrores
             // 

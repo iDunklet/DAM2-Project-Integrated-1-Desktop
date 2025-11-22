@@ -38,9 +38,9 @@
             button1.Location = new Point(406, 250);
             button1.Margin = new Padding(3, 4, 3, 4);
             button1.Name = "button1";
-            button1.Size = new Size(421, 155);
+            button1.Size = new Size(458, 155);
             button1.TabIndex = 0;
-            button1.Text = "Import   JSON";
+            button1.Text = "Import Directory";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
             // 

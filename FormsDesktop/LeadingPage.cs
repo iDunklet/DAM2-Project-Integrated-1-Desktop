@@ -62,7 +62,34 @@ namespace FormsDesktop
             comboBoxTipoJuegos.SelectedIndex = 0;
 
         }
+        private void CargarArchivosDelDirectorio(string directorio)
+        {
+            if (!Directory.Exists(directorio)) return;
+            archivosJson = Directory.GetFiles(directorio, "*.json").ToList();
 
+            comboBoxTipoJuegos.Items.Clear();
+
+            foreach (var f in archivosJson)
+            {
+                string contenido = File.ReadAllText(f);
+                JObject j = JObject.Parse(contenido);
+
+                if (j["cat"] != null && filePathCat == null)
+                {
+                    filePathCat = f;
+                    comboBoxTipoJuegos.Items.Add("Colorful Shapes");
+                }
+                else if (j["colors"] != null && filePathColors == null)
+                {
+                    filePathColors = f;
+                    comboBoxTipoJuegos.Items.Add("Gatito Cuentagotas");
+                }
+            }
+
+
+            if (comboBoxTipoJuegos.Items.Count > 0)
+                comboBoxTipoJuegos.SelectedIndex = 0;
+        }
         private void MostrarUsuariosGato(List<CatUser> usuariosGato)
         {
             panelSuperior.Controls.Clear();
@@ -92,7 +119,6 @@ namespace FormsDesktop
                 panelSuperior.Controls.Add(uc);
             }
         }
-
         private void MostrarJugadoresShapes(List<ColorsUser> usuariosColors)
         {
             panelSuperior.Controls.Clear();
@@ -123,37 +149,6 @@ namespace FormsDesktop
                 panelSuperior.Controls.Add(uc);
             }
         }
-
-        private void CargarArchivosDelDirectorio(string directorio)
-        {
-            if (!Directory.Exists(directorio)) return;
-            archivosJson = Directory.GetFiles(directorio, "*.json").ToList();
-
-            comboBoxTipoJuegos.Items.Clear();
-
-            foreach (var f in archivosJson)
-            {
-                string contenido = File.ReadAllText(f);
-                JObject j = JObject.Parse(contenido);
-
-                if (j["cat"] != null && filePathCat == null)
-                {
-                    filePathCat = f;
-                    comboBoxTipoJuegos.Items.Add("Colorful Shapes");
-                }
-                else if (j["colors"] != null && filePathColors == null)
-                {
-                    filePathColors = f;
-                    comboBoxTipoJuegos.Items.Add("Gatito Cuentagota");
-                }
-            }
-
-
-            if (comboBoxTipoJuegos.Items.Count > 0)
-                comboBoxTipoJuegos.SelectedIndex = 0;
-        }
-
-
         private void comboBoxTipoJuegos_SelectedIndexChanged(object sender, EventArgs e)
         {
             panelSuperior.Controls.Clear();
@@ -163,9 +158,6 @@ namespace FormsDesktop
             else if (comboBoxTipoJuegos.SelectedIndex == 1 && colorsUsers != null)
                 MostrarJugadoresShapes(colorsUsers);
         }
-
-
-
         private void comboBoxOrdenar_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxTipoJuegos.SelectedIndex == 0)
@@ -177,7 +169,6 @@ namespace FormsDesktop
                 MostrarJugadoresShapes(colorsUsers);
             }
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
             if (comboBoxTipoJuegos.SelectedIndex == 0)
@@ -199,6 +190,13 @@ namespace FormsDesktop
             {
                 nuevoNombre += ".json";
 
+                char[] invalidChars = Path.GetInvalidFileNameChars();
+                if (nuevoNombre.IndexOfAny(invalidChars) >= 0)
+                {
+                    MessageBox.Show("El nombre contiene caracteres inválidos");
+                    return;
+                }
+
                 string carpeta = Path.GetDirectoryName(filePath);
                 string nuevaRuta = Path.Combine(carpeta, nuevoNombre);
 
@@ -208,19 +206,17 @@ namespace FormsDesktop
                     return;
                 }
 
-                File.Move(filePath, nuevaRuta);
+                    File.Move(filePath, nuevaRuta);
                 filePath = nuevaRuta;
 
                 MessageBox.Show("Renombrado correctamente");
             }
             else { MessageBox.Show("No puedes dejar el textbox vacio"); }
         }
-
         private void button2_Click(object sender, EventArgs e)
         {
             string pathEliminar = null;
 
-            // Determinar qué archivo eliminar según el ComboBox
             if (comboBoxTipoJuegos.SelectedIndex == 0)
                 pathEliminar = filePathCat;
             else if (comboBoxTipoJuegos.SelectedIndex == 1)
@@ -246,7 +242,6 @@ namespace FormsDesktop
                     File.Delete(pathEliminar);
                     MessageBox.Show("Archivo eliminado.");
 
-                    // Opcional: quitar del ComboBox y actualizar paths
                     if (comboBoxTipoJuegos.SelectedIndex == 0) filePathCat = null;
                     else if (comboBoxTipoJuegos.SelectedIndex == 1) filePathColors = null;
 
@@ -260,8 +255,6 @@ namespace FormsDesktop
                 }
             }
         }
-
-
         private void button3_Click(object sender, EventArgs e)
         {
             string pathGuardar = null;
@@ -294,6 +287,5 @@ namespace FormsDesktop
                 MessageBox.Show("Error al guardar: " + ex.Message);
             }
         }
-
     }
 }

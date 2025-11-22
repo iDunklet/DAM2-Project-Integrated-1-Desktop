@@ -12,7 +12,6 @@ namespace FormsDesktop
 {
     public partial class ImportScreen : Form
     {
-        private OpenFileDialog dialog = new OpenFileDialog();
         private List<CatUser> catusers = new List<CatUser>();
         private List<ColorsUser> colorsUsers = new List<ColorsUser>();
 
@@ -39,7 +38,6 @@ namespace FormsDesktop
                     return;
                 }
 
-                // listas finales
                 catusers = new List<CatUser>();
                 colorsUsers = new List<ColorsUser>();
 
@@ -65,11 +63,9 @@ namespace FormsDesktop
                         }
                         else
                         {
-                            // no corresponde a tus juegos → lo saltas
                             continue;
                         }
 
-                        // Validación
                         bool isValid = true;
 
                         foreach (var item in array)
@@ -77,9 +73,13 @@ namespace FormsDesktop
                             if (item is JObject obj)
                             {
                                 if (game == "cat" && (obj["name"] == null || obj["age"] == null))
+                                {
                                     isValid = false;
-                                else if (game == "colors" && (obj["nombre"] == null || obj["edad"] == null))
-                                    isValid = false;
+                                }
+                                else if (game == "colors" && (obj["nombre"] == null || obj["edad"] == null)) 
+                                {
+                                    isValid = false; 
+                                }
                             }
                             else
                             {
@@ -89,38 +89,32 @@ namespace FormsDesktop
                             if (!isValid) break;
                         }
 
-                        if (!isValid)
-                            continue; // no lo cargamos
+                        if (!isValid) {  continue; }
 
-                        // Cargar datos
-                        if (game == "cat")
+                        if (game == "cat") { 
                             catusers.AddRange(array.ToObject<List<CatUser>>());
-                        else
+                        }
+                        else { 
                             colorsUsers.AddRange(array.ToObject<List<ColorsUser>>());
+                        }
                     }
                     catch
                     {
-                        // archivo corrupto → lo ignoramos
                         continue;
                     }
                 }
 
-                // Si no hay nada válido
                 if (catusers.Count == 0 && colorsUsers.Count == 0)
                 {
                     MessageBox.Show("No se pudo cargar ningún JSON válido.");
                     return;
                 }
 
-                MessageBox.Show("Archivos cargados correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Abrir siguiente form
                 LeadingPage lp = new LeadingPage(catusers, colorsUsers, carpeta);
                 lp.Show();
                 this.Hide();
             }
         }
-
     }
 }
 

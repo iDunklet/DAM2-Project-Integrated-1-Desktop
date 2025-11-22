@@ -18,8 +18,6 @@ namespace FormsDesktop.Classes
         public int gametime { get; set; }
         public int rondas { get; set; }
 
-
-        //constructors
         public ColorsUserGameData(int dificulty, int successes, int errors, DateTime startDate, DateTime endDate, int gameTime, int rounds)
         {
             dificultad = dificulty;

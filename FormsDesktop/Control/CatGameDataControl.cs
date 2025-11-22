@@ -29,20 +29,5 @@ namespace FormsDesktop.Control
                     System.Globalization.CultureInfo.InvariantCulture
                 ).ToString("dd/MM/yyyy HH:mm");
         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void labelTiempo_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void labelDificultad_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

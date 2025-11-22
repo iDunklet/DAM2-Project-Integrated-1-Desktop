@@ -18,15 +18,12 @@ namespace FormsDesktop.Control
         private List<CatUser> listaUsers;
         public event Action<CatUser> OnUserDeleted;
 
-
-
         public CatUserControl(List<CatUser> l, CatUser catuser)
         {
             InitializeComponent();
             this.u = catuser;
             this.listaUsers = l;
         }
-
         public void setDatos(CatUser user)
         {
 
@@ -74,15 +71,9 @@ namespace FormsDesktop.Control
                 OnUserDeleted?.Invoke(u);
             }
         }
-
         private void buttonEditar_Click(object sender, EventArgs e)
         {
             contextMenuStrip1.Show(buttonEditar, 0, buttonEditar.Height);
-        }
-
-        private void labelEdad_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
